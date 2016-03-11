@@ -80,6 +80,10 @@ Toggles `--no-prefix` that does not include the comment header.
 
 Sets `--require-path=<string>` that specifies the path prefix to use for `require()` calls in the generated JavaScript.
 
+###### `jsonErrors` (Boolean)
+
+Sets `--json-errors` that outputs warnings and errors as JSON.
+
 ### `purescript.pscBundle(options)`
 
 Invokes the `psc-bundle` command. The following options are supported.

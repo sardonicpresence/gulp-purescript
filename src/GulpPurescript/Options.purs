@@ -80,6 +80,10 @@ requirePathOpt = "require-path"
 
 requirePathKey = camelcaseFn requirePathOpt
 
+jsonErrorsOpt = "json-errors"
+
+jsonErrorsKey = camelcaseFn jsonErrorsOpt
+
 newtype Psc
   = Psc { src :: Either String (Array String)
         , ffi :: NullOrUndefined (Either String (Array String))
@@ -91,6 +95,7 @@ newtype Psc
         , comments :: NullOrUndefined Boolean
         , noPrefix :: NullOrUndefined Boolean
         , requirePath :: NullOrUndefined String
+        , jsonErrors :: NullOrUndefined Boolean
         }
 
 newtype PscBundle
@@ -131,6 +136,7 @@ instance isForeignPsc :: IsForeign Psc where
              , comments: _
              , noPrefix: _
              , requirePath: _
+             , jsonErrors: _
              } <$> (readProp srcKey obj >>= readEither)
                <*> (readProp ffiKey obj >>= readEitherNU)
                <*> readProp outputKey obj
@@ -140,7 +146,8 @@ instance isForeignPsc :: IsForeign Psc where
                <*> readProp verboseErrorsKey obj
                <*> readProp commentsKey obj
                <*> readProp noPrefixKey obj
-               <*> readProp requirePathKey obj)
+               <*> readProp requirePathKey obj
+               <*> readProp jsonErrorsKey obj)
 
 instance isForeignPscBundle :: IsForeign PscBundle where
   read obj =
@@ -247,7 +254,8 @@ pscOptions opts = fold <$> parsed
                        opt verboseErrorsOpt a.verboseErrors <>
                        opt commentsOpt a.comments <>
                        opt noPrefixOpt a.noPrefix <>
-                       opt requirePathOpt a.requirePath
+                       opt requirePathOpt a.requirePath <>
+                       opt jsonErrorsOpt a.jsonErrors
 
 pscBundleOptions :: Foreign -> Either ForeignError (Array String)
 pscBundleOptions opts = fold <$> parsed
